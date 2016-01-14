@@ -1,9 +1,9 @@
 {
-  "name": "react-es6-browserify-gulp-app",
-  "version": "1.0.0",
-  "description": "App Boilerplate (Browserify, ES6, React)",
+  "name": "storyteller",
+  "version": "0.0.0",
+  "description": "A tool for telling stories",
   "author": "Calvin Spealman",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "babel-plugin-syntax-jsx": "^6.1.18",
     "babel-plugin-transform-react-jsx": "^6.1.18",
@@ -28,6 +28,7 @@
     "gulp-uglify": "^0.3.1",
     "gulp-util": "^3.0.0",
     "phantomjs": "^1.9.12",
+    "pouchdb": "^5.2.0",
     "reactify": "^0.15.2",
     "vinyl-source-stream": "^0.1.1",
     "watchify": "^2.1.1"

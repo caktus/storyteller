@@ -1,26 +1,6 @@
-## React App ES6/Less Boilerplate
+## Storyteller
 
-Start developing React JS applications easily with the included tooling. Using gulp with browserify and jasmine for testing. Implements a sample ReactJS application, "Reactive Notes", as examples of
-the setup. Included in the setup:
-
-- Browserify for Module unpacking
-- Less compilation
-- Live reloading on changes for development
-- ES6 transpilation via Babel
-- React and Flux layout example including components, actions, store, and dispatcher modules
-
-Still planned:
-
-- Example tests covering the new example app
-- Documenting example React application
-- Removing build/dist from repository
-
-Based on [React App Boilerplate](https://github.com/christianalfoni/react-app-boilerplate)
-
-Read more about how it works at: [React JS workflow, part 2](http://christianalfoni.github.io/javascript/2014/10/30/react-js-workflow-part2.html)
-
-### Notes
-The boilerplate is minimalistic, meaning you have to expand on the current workflow for handling static assets etc.
+A fiction narrative generation tool.
 
 ### Install
 
@@ -29,9 +9,9 @@ The boilerplate is minimalistic, meaning you have to expand on the current workf
 
 ### Changes
 
-**1.0**
+**0.0.0**
 
-Built from existing React boilerplate and added ES6, Less, and an example application.
+Initial shell project.
 
 ### Development
 * Run `NODE_ENV=development gulp`

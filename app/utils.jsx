@@ -18,3 +18,8 @@ export default class AutoComponent extends React.Component {
     }
   }
 }
+
+export function choice(list) {
+  let i = parseInt(Math.random() * list.length)
+  return list[i]
+}

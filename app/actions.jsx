@@ -2,55 +2,24 @@ import Dispatcher from './dispatcher.jsx';
 
 
 class Actions {
-    newEntry(text) {
-        if (text) {
+    addEvent(desc) {
+        if (desc) {
             Dispatcher.dispatch({
-                action: "new_entry",
-                text: text,
+                action: "add_event",
+                desc: desc,
             })
         }
     }
-    moveUp() {
+    createCharacter(name) {
         Dispatcher.dispatch({
-            action: "move",
-            direction: -1,
+            action: "add_char",
+            name: name,
         })
     }
-    moveDown() {
+    makeUpSomething() {
         Dispatcher.dispatch({
-            action: "move",
-            direction: 1,
+            action: "make_up_something",
         })
-    }
-    enableEditMode(note) {
-        Dispatcher.dispatch({
-            action: "edit_mode",
-            note: note.props.i,
-        })
-    }
-    disableEditMode() {
-        Dispatcher.dispatch({
-            action: "edit_mode",
-            note: -1,
-        })
-    }
-    changeNoteText(note, text) {
-        Dispatcher.dispatch({
-            action: "edit_mode",
-            note: -1,
-        })
-        if (text) {
-            Dispatcher.dispatch({
-                action: "change_note_text",
-                note: note.props.i,
-                text: text,
-            })
-        } else {
-            Dispatcher.dispatch({
-                action: "delete_note",
-                note: note.props.i,
-            })
-        }
     }
 }
 

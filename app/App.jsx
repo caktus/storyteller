@@ -1,33 +1,36 @@
 import React from 'react';
 import Dispatcher from './dispatcher.jsx';
-import NoteStore from './store.jsx';
+import TimelineStore from './timeline/store.jsx';
 import Actions from './actions.jsx';
-import {Note, NoteEntry} from './components.jsx';
+import {Timeline, Event, CharacterList} from './components.jsx';
 import AutoComponent from './utils.jsx'
 
 
 class App extends AutoComponent {
   constructor() {
     super()
-    NoteStore.addListener('change', this.onChange)
+    TimelineStore.addListener('change', this.onChange)
     Dispatcher.register(this.onAction)
     this.state = {
-      editNote: -1
     }
   }
 
   render() {
-    var editNote = this.state.editNote
-    var notes = NoteStore.getNotes().map(
-      (note, i) => <Note key={i} i={i} text={note.text} editMode={editNote===i} />
-    )
-    var focusEntry = editNote === -1
     return (
-      <div className="note-list">
-        {notes}
-        <NoteEntry isFocused={focusEntry} />
+      <div>
+        <Timeline events={TimelineStore.events} />
+        <input onKeyUp={this.onKeyUp} />
+        <button onClick={Actions.makeUpSomething}>Make Up Something</button>
+        <CharacterList characters={TimelineStore.characters} />
       </div>
     )
+  }
+
+  onKeyUp(ev) {
+    if (ev.keyCode === 13) {
+      Actions.addEvent(ev.target.value)
+      ev.target.value = ""
+    }
   }
 
   onChange() {
@@ -35,27 +38,11 @@ class App extends AutoComponent {
   }
 
   onAction(payload) {
-    switch (payload.action) {
-      case "edit_mode":
-        this.setState({editNote: payload.note})
-        break
-      case "move":
-        var i = this.state.editNote
-        if (i < 0) {
-          i = NoteStore.getNoteCount()
-        }
-        i += payload.direction
-        if (i < 0) {
-          i = 0
-        }
-        if (i >= NoteStore.getNoteCount()) {
-          i = NoteStore.getNoteCount() - 1
-          this.setState({editNote: -1})
-        } else {
-          this.setState({editNote: i})
-        }
-        break
-    }
+    // switch (payload.action) {
+    //   case "edit_mode":
+    //     this.setState({editNote: payload.note})
+    //     break
+    // }
   }
 }
 

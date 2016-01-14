@@ -5,92 +5,75 @@ import Actions from './actions.jsx'
 import Dispatcher from './dispatcher.jsx'
 
 
-export class Note extends AutoComponent {
-  constructor(props={editMode: false}) {
-    super(props)
-  }
+export class Character extends AutoComponent {
   render() {
-    if (this.props.editMode) {
-      return (
-        <div className="note note-edit"><NoteEntry text={this.props.text} onEnter={this.onEnter} /></div>
-      )
-    } else {
-      return (
-        <div className="note" onClick={this.onClick}>{this.props.text}</div>
-      )
-    }
     return (
-      <div className="note" onClick={this.onClick}>{this.props.text}{edit}</div>
+      <div className="st-char">
+        <dl>
+          <dt>name</dt>
+          <dd>{this.props.name}</dd>
+        </dl>
+      </div>
     )
   }
-  onClick(ev) {
-    Actions.enableEditMode(this)
+}
+export class CharacterCreate extends AutoComponent {
+  render() {
+    return (
+      <label>New Character:
+        <input onKeyUp={this.onKeyUp} />
+      </label>
+    )
   }
-  onEnter(text) {
-    Actions.changeNoteText(this, text)
+  onKeyUp(ev) {
+    if (ev.keyCode === 13) {
+      let name = ev.target.value
+      ev.target.value = ""
+      Actions.createCharacter(name)
+    }
   }
 }
 
-export class NoteEntry extends AutoComponent {
-  constructor(props) {
-    super(props)
-    Dispatcher.register((payload) => {
-      if (payload.action == "edit_mode" && payload.note == -1) {
-        this.focus()
-      }
-    })
-  }
-  componentWillMount() {
-    this.setState({text: this.props.text || ""})
-  }
-  componentDidMount() {
-    this.focus()
-  }
-  componentDidUpdate() {
-    if (this.props.isFocused) {
-      this.focus()
-    }
-  }
-  focus() {
-    var el = ReactDOM.findDOMNode(this.input)
-    if (el !== null && el !== document.activeElement) {
-      el.focus()
-      el.setSelectionRange(0, el.value.length)
-    }
-  }
+export class CharacterList extends AutoComponent {
   render() {
-    var text = this.state.text || ""
-    var className = "note-entry"
-    if (typeof this.props.onEnter === "undefined") {
-      className += " new-note-entry"
-    }
+    let f = React.createFactory(Character)
+    let characters = this.props.characters.map((character)=>(f(character)))
     return (
-      <div className={className}>
-        <textarea ref={(el)=>this.input=el} type="text" onKeyUp={this.onKeyUp} onChange={this.onChange}>{text}</textarea></div>
+      <div className="st-char-list">
+        <h3>Characters</h3>
+        {characters}
+        <CharacterCreate />
+      </div>
     )
   }
-  onChange(ev) {
-    this.setState({text: ev.target.value})
+}
+
+export class Event extends AutoComponent {
+  constructor(props={desc: ""}) {
+    super(props)
   }
-  onKeyUp(ev) {
-    switch (ev.keyCode) {
-      case 13:
-        this.setState({text: ""})
-        this.onEnter(ev.target.value)
-        break
-      case 38:
-        Actions.moveUp()
-        break
-      case 40:
-        Actions.moveDown()
-        break
-    }
-  }
-  onEnter(text) {
-    if (typeof this.props.onEnter === "undefined") {
-      Actions.newEntry(text)
+
+  describe() {
+    if (this.props.who && this.props.what) {
+      return `${this.props.who.name} ${this.props.what}`
     } else {
-      this.props.onEnter(text)
+      return this.props.desc || "<unknown event>"
     }
+  }
+
+  render() {
+    return (
+      <div className="st-event">
+        {this.describe()}
+      </div>
+    )
+  }
+}
+
+export class Timeline extends AutoComponent {
+  render() {
+    let f = React.createFactory(Event)
+    let events = this.props.events.map((event)=>(f(event)))
+    return <div className="st-timeline">{events}</div>
   }
 }
